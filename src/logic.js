@@ -62,7 +62,7 @@ const projectsList = {
         }
     },
     removeProject: function(id) {
-        const projectWithId = this.projects.findIndex(obj => obj.id == id);
+        const projectWithId = this.projects.findIndex(obj => obj.pid == id);
         this.projects.splice(projectWithId, 1);
     }
 }

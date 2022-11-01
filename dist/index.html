@@ -15,15 +15,34 @@
         <main>
             <div id="projects">
                 <h2>Projects</h2>
-                <form action="#" id="projectform">
+                <form action="" id="projectform">
                     <input type="text" name="project" id="pname" placeholder="Project name">
                     <button type="submit">Add project</button>
                 </form>
                 <ul id="plist">
+                    <li class="projectbox" data-id="0">
+                        <span>Name</span>
+                        <button><img src="./images/X.svg" alt="delete" class="ximg" data-id="0"></button>
+                    </li>
                 </ul>
             </div>
             <div id="tasks">
+                <h2>Tasks</h2>
                 <ul id="tlist">
+                    <li>
+                        <div class="taskbox" data-id="0">
+                            <div class="options">
+                                <span class="task">name:</span>
+                                <span class="task">text</span>
+                                <span class="task">Due:</span>
+                                <span class="task">Date</span>
+                                <span class="task">priority:</span>
+                                <span class="task">Number</span>
+                                <p class="taskd">description</p>
+                            </div>
+                            <button class="delete">Delete</button>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </main>
