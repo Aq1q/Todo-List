@@ -1,15 +1,16 @@
 const projectsList = {
     projects: [],
     addProject: function(title) {
-        if(this.projects.length != 0 && this.projects[this.projects.length - 1].id == this.projects.length) {
+        if(this.projects.length != 0) {
+            console.log(this.projects[this.projects.length-1].pid);
             this.projects.push({
-                pid: this.projects.length + 1,
+                pid: this.projects[this.projects.length - 1].pid + 1,
                 title, 
                 tasks:[],
-                addTask: function(title,description = '',dueDate = '',priority = 0) { 
-                    if(this.tasks.length != 0 && this.tasks[this.tasks.length-1].id == this.tasks.length) {
+                addTask: function(title, dueDate = '', priority = 0, description = '') {
+                    if(this.tasks.length != 0) {
                         this.tasks.push({
-                            id: this.tasks.length + 1,
+                            id: this.tasks[this.tasks.length - 1].id + 1,
                             title,
                             description,
                             dueDate,
@@ -35,10 +36,10 @@ const projectsList = {
                 pid: this.projects.length,
                 title, 
                 tasks:[],
-                addTask: function(title,description = '',dueDate = '',priority = 0) { 
-                    if(this.tasks.length != 0 && this.tasks[this.tasks.length-1].id == this.tasks.length) {
+                addTask: function(title, dueDate = '', priority = 0, description = '') { 
+                    if(this.tasks.length != 0) {
                         this.tasks.push({
-                            id: this.tasks.length + 1,
+                            id: this.tasks[this.tasks.length - 1].id + 1,
                             title,
                             description,
                             dueDate,
@@ -51,7 +52,7 @@ const projectsList = {
                             description,
                             dueDate,
                             priority
-                        })
+                        });
                     };
                 },
                 removeTask: function(id) {
@@ -66,6 +67,5 @@ const projectsList = {
         this.projects.splice(projectWithId, 1);
     }
 }
-projectsList.addProject('Main');
 
 export { projectsList };

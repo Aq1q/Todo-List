@@ -15,8 +15,8 @@
         <main>
             <div id="projects">
                 <h2>Projects</h2>
-                <form action="" id="projectform">
-                    <input type="text" name="project" id="pname" placeholder="Project name">
+                <form action="" id="projectForm">
+                    <input type="text" name="project" id="pname" placeholder="Project name" required>
                     <button type="submit">Add project</button>
                 </form>
                 <ul id="plist">
@@ -24,21 +24,33 @@
             </div>
             <div id="tasks">
                 <h2>Tasks</h2>
+                <button id="taskBtn">Add a task</button>
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form action="#" id="taskForm">
+                            <label for="nameInput">
+                                Task Title
+                                <input type="text" name="title" id="nameInput" required>
+                            </label>
+                            <label for="dueDateInput">
+                                Due
+                                <input type="date" name="dueDate" id="dueDateInput">
+                            </label>
+                            <label for="priorityInput">
+                                priority
+                                <input type="number" name="priority" id="priorityInput" min="0" max="5">
+                            </label>
+                            <label for="descriptionInput" class="description">
+                                Description
+                                <textarea name="description" id="descriptionInput" cols="30" rows="10"></textarea>
+                            </label>
+                            <input type="submit" value="Add a task" id="taskAdd">
+                        </form>
+                    </div>
+
+                </div>
                 <ul id="tlist">
-                    <li>
-                        <div class="taskbox" data-id="0">
-                            <div class="options">
-                                <span class="task">name:</span>
-                                <span class="task">text</span>
-                                <span class="task">Due:</span>
-                                <span class="task">Date</span>
-                                <span class="task">priority:</span>
-                                <span class="task">Number</span>
-                                <p class="taskd">description</p>
-                            </div>
-                            <button class="delete">Delete</button>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </main>
