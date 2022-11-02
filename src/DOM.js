@@ -1,6 +1,7 @@
+import { deleteTask } from "./index";
+
 function deleteElement (e, id) {   
     if (e === 'project') {
-        console.log(id);
         const element = document.querySelector(`[data-idp="${id}"]`);
         element.remove();
     } else {
@@ -13,9 +14,10 @@ function addProject (title, id) {
     const parent = document.getElementById('plist');
     const child = document.createElement('li');
     child.classList.add('projectbox');
-    child.setAttribute("data-idp", id);
+    child.setAttribute('data-idp', id);
     
     const name = document.createElement('span');
+    name.setAttribute('data-idp', id);
     name.innerText = title;
     child.appendChild(name);
 
@@ -29,7 +31,11 @@ function addProject (title, id) {
     button.appendChild(img);
     child.appendChild(button);
     parent.appendChild(child);
-    return button;
+
+
+    const elements = [button, child];
+    
+    return elements;
 }
 
 function modal() {
@@ -101,6 +107,28 @@ function taskTab(elements, id) {
     parent.appendChild(child);
     
     return deleteBtn;
+};
+
+function loadTasks (from) {
+    clearTasks();
+    let i = 0;
+    while (i < from.tasks.length && from.tasks.length != 0) {
+        
+        const elements = [
+            {value: from.tasks[i].title}, 
+            {value: from.tasks[i].dueDate},
+            {value: from.tasks[i].priority},
+            {value: from.tasks[i].description}
+        ];
+        const element = taskTab(elements, from.tasks[i].id);
+        element.addEventListener('click', event => deleteTask(event));
+        i++;
+    }
+};
+
+function clearTasks () {
+    const list = document.getElementById('tlist');
+    list.innerHTML = '';
 }
 
-export { deleteElement, addProject, taskTab, modal };
+export { deleteElement, addProject, taskTab, modal, loadTasks, clearTasks };

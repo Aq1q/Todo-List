@@ -2,7 +2,6 @@ const projectsList = {
     projects: [],
     addProject: function(title) {
         if(this.projects.length != 0) {
-            console.log(this.projects[this.projects.length-1].pid);
             this.projects.push({
                 pid: this.projects[this.projects.length - 1].pid + 1,
                 title, 
