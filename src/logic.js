@@ -64,6 +64,10 @@ const projectsList = {
     removeProject: function(id) {
         const projectWithId = this.projects.findIndex(obj => obj.pid == id);
         this.projects.splice(projectWithId, 1);
+    },
+    findProject: function(id) {
+        const projectId = this.projects.findIndex(obj => obj.pid == id);
+        return projectId;
     }
 }
 

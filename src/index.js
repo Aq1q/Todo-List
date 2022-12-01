@@ -18,17 +18,22 @@ addBtn.addEventListener('submit', (e) => {
 const taskBtn = document.getElementById('taskForm');
 taskBtn.addEventListener('submit', (e) => {
     e.preventDefault();
-    newTask(e.target.elements);
+    if (projectsList.projects.length != 0) {
+        newTask(e.target.elements);
+    } 
 });
 
 function projectDelete (btn) {
-    btn.addEventListener('click', event => deleteProject(event));
+    btn.addEventListener('click', event => {
+        deleteProject(event);
+    });
 };
 
 function taskDelete (btn) {
     btn.addEventListener('click', event => deleteTask(event));
 };
 
+//or here
 function deleteProject(e) {
     projectsList.removeProject(e.srcElement.dataset.idp);
     domClear('project', e.srcElement.dataset.idp);
@@ -48,18 +53,21 @@ function newProject(name) {
 };
 
 function newTask(e) {
-    if(projectsList.projects[currentProject].tasks.length != 0 && projectsList.projects[currentProject].tasks[projectsList.projects[currentProject].tasks.length - 1 ].id >= projectsList.projects[currentProject].tasks.length) {
-        const element = taskTab(e, projectsList.projects[currentProject].tasks[projectsList.projects[currentProject].tasks.length - 1].id + 1);
+    const pid = projectsList.findProject(currentProject);
+
+    if(projectsList.projects[pid].tasks.length != 0 && projectsList.projects[pid].tasks[projectsList.projects[pid].tasks.length - 1 ].id >= projectsList.projects[pid].tasks.length) {
+        const element = taskTab(e, projectsList.projects[pid].tasks[projectsList.projects[pid].tasks.length - 1].id + 1);
         taskDelete(element);
     } else { 
-        const element = taskTab(e, projectsList.projects[currentProject].tasks.length);
+        const element = taskTab(e, projectsList.projects[pid].tasks.length);
         taskDelete(element);
     }
-    projectsList.projects[currentProject].addTask(e[0].value, e[1].value, e[2].value, e[3].value);
+    projectsList.projects[pid].addTask(e[0].value, e[1].value, e[2].value, e[3].value);
 };
 
 function deleteTask(e) {
-    projectsList.projects[currentProject].removeTask(e.srcElement.dataset.idt);
+    const pid = projectsList.findProject(currentProject);
+    projectsList.projects[pid].removeTask(e.srcElement.dataset.idt);
     domClear('task',e.srcElement.dataset.idt);
 };
 
