@@ -45,17 +45,11 @@ function modal() {
 
     let span = document.getElementsByClassName('close')[0];
 
-    let submit = document.getElementById('taskAdd');
-
     btn.addEventListener('click', () => {
         modal.style.display = 'block';
     });
 
     span.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-    
-    submit.addEventListener('click', () => {
         modal.style.display = 'none';
     });
 
@@ -66,7 +60,12 @@ function modal() {
     });
 };
 
-function taskTab(elements, id) {
+function hideModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none'
+}
+
+function taskTab(t, d, p, desc, id) {
     const parent =  document.getElementById('tlist');
     const child = document.createElement('li');
     const grandChild = document.createElement('div');
@@ -78,22 +77,22 @@ function taskTab(elements, id) {
     
     const title = document.createElement('span');
     title.classList.add('task');
-    title.innerText = `Title: ${elements[0].value}`;
+    title.innerText = `Title: ${t}`;
     grandChild.appendChild(title);
 
     const dueDate = document.createElement('span');
     dueDate.classList.add('task');
-    dueDate.innerText = `Due: ${elements[1].value}`;
+    dueDate.innerText = `Due: ${d}`;
     grandChild.appendChild(dueDate)
 
     const priority = document.createElement('span');
     priority.classList.add('task');
-    priority.innerText = `Priority: ${elements[2].value}`;
+    priority.innerText = `Priority: ${p}`;
     grandChild.appendChild(priority);
 
     const description = document.createElement('p');
     description.classList.add('taskd');
-    description.innerText = elements[3].value;
+    description.innerText = desc;
     grandChild.appendChild(description);
 
     child.appendChild(grandChild);
@@ -113,14 +112,7 @@ function loadTasks (from) {
     clearTasks();
     let i = 0;
     while (i < from.tasks.length && from.tasks.length != 0) {
-        
-        const elements = [
-            {value: from.tasks[i].title}, 
-            {value: from.tasks[i].dueDate},
-            {value: from.tasks[i].priority},
-            {value: from.tasks[i].description}
-        ];
-        const element = taskTab(elements, from.tasks[i].id);
+        const element = taskTab(from.tasks[i].title, from.tasks[i].dueDate, from.tasks[i].priority, from.tasks[i].description, from.tasks[i].id);
         element.addEventListener('click', event => deleteTask(event));
         i++;
     }
@@ -131,4 +123,4 @@ function clearTasks () {
     list.innerHTML = '';
 }
 
-export { deleteElement, addProject, taskTab, modal, loadTasks, clearTasks };
+export { deleteElement, addProject, taskTab, modal, loadTasks, clearTasks, hideModal };

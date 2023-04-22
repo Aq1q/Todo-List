@@ -1,12 +1,21 @@
 import { projectsList } from "./logic";
-import { deleteElement as domClear, loadTasks as domTasksLoad, clearTasks} from "./DOM" ;
+import { deleteElement as domClear, loadTasks as domTasksLoad, clearTasks, hideModal} from "./DOM" ;
 import { addProject as domProject, taskTab, modal} from "./DOM";
 
 modal();
 
-if(localStorage.length < 1) {
+if(localStorage.length < 1 || localStorage.getItem('list') == '[]') {
     newProject('Main');
-};
+} else {
+    const projects = JSON.parse(localStorage.getItem('list'));
+    projects.forEach(project => {
+        newProject(project.title);
+        project.tasks.forEach(task => {
+            projectsList.projects[projectsList.projects.length - 1].addTask(task.title, task.dueDate, task.priority, task.description);
+        })
+    })
+    loadTasks(0);
+}
 
 let currentProject = 0;
 const addBtn = document.getElementById('projectForm');
@@ -18,9 +27,14 @@ addBtn.addEventListener('submit', (e) => {
 const taskBtn = document.getElementById('taskForm');
 taskBtn.addEventListener('submit', (e) => {
     e.preventDefault();
+    const title = e.target.elements[0].value;
+    const dueDate = e.target.elements[1].value;
+    const priority = e.target.elements[2].value;
+    const description = e.target.elements[3].value;
     if (projectsList.projects.length != 0) {
-        newTask(e.target.elements);
-    } 
+        newTask(title, dueDate, priority, description);
+    };
+    hideModal();
 });
 
 function projectDelete (btn) {
@@ -33,10 +47,13 @@ function taskDelete (btn) {
     btn.addEventListener('click', event => deleteTask(event));
 };
 
-//or here
 function deleteProject(e) {
     projectsList.removeProject(e.srcElement.dataset.idp);
     domClear('project', e.srcElement.dataset.idp);
+    if(currentProject == e.srcElement.dataset.idp) {
+        clearTasks();
+    }
+    localStorage.setItem('list', JSON.stringify(projectsList.projects));
 };
 
 function newProject(name) {
@@ -50,25 +67,27 @@ function newProject(name) {
         projectChange(btn[1]);
     }
     projectsList.addProject(name);
+    localStorage.setItem('list',JSON.stringify(projectsList.projects));
 };
 
-function newTask(e) {
+function newTask(title, due, priority, description) {
     const pid = projectsList.findProject(currentProject);
-
     if(projectsList.projects[pid].tasks.length != 0 && projectsList.projects[pid].tasks[projectsList.projects[pid].tasks.length - 1 ].id >= projectsList.projects[pid].tasks.length) {
-        const element = taskTab(e, projectsList.projects[pid].tasks[projectsList.projects[pid].tasks.length - 1].id + 1);
+        const element = taskTab(title, due, priority, description, projectsList.projects[pid].tasks[projectsList.projects[pid].tasks.length - 1].id + 1);
         taskDelete(element);
     } else { 
-        const element = taskTab(e, projectsList.projects[pid].tasks.length);
+        const element = taskTab(title, due, priority, description, projectsList.projects[pid].tasks.length);
         taskDelete(element);
     }
-    projectsList.projects[pid].addTask(e[0].value, e[1].value, e[2].value, e[3].value);
+    projectsList.projects[pid].addTask(title, due, priority, description);
+    localStorage.setItem('list', JSON.stringify(projectsList.projects));
 };
 
 function deleteTask(e) {
     const pid = projectsList.findProject(currentProject);
     projectsList.projects[pid].removeTask(e.srcElement.dataset.idt);
     domClear('task',e.srcElement.dataset.idt);
+    localStorage.setItem('list', JSON.stringify(projectsList.projects));
 };
 
 function projectChange(element) {
@@ -90,6 +109,7 @@ function loadTasks (id) {
         }
     }
     domTasksLoad(project);
+    localStorage.setItem('list',JSON.stringify(projectsList.projects));
 };
 
 export { deleteTask };
