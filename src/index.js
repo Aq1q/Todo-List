@@ -1,6 +1,6 @@
 import { projectsList } from "./logic";
 import { deleteElement as domClear, loadTasks as domTasksLoad, clearTasks} from "./DOM" ;
-import { addProject as domProject, taskTab, modal} from "./Dom";
+import { addProject as domProject, taskTab, modal} from "./DOM";
 
 modal();
 
