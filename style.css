@@ -216,3 +216,7 @@ align-items: center;
 padding: 0;
 margin: 0;
 }
+
+.projectbox:hover{
+    cursor: pointer;
+}
